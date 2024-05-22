@@ -10,9 +10,7 @@ import { addOutline } from 'ionicons/icons';
 addIcons({ addOutline });
 
 @Component({
-  selector: 'app-players',
   templateUrl: './players.page.html',
-  styleUrls: ['./players.page.scss'],
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule, RouterLink],
 })

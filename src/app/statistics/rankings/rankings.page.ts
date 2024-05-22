@@ -4,8 +4,8 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 
 @Component({
-  templateUrl: './settings.page.html',
+  templateUrl: './rankings.page.html',
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule],
 })
-export class SettingsPage {}
+export class RankingsPage {}
