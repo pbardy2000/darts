@@ -10,4 +10,24 @@ export const routes: Routes = [
     redirectTo: 'home',
     pathMatch: 'full',
   },
+  {
+    path: 'games',
+    loadChildren: () =>
+      import('./games/games.routes').then((m) => m.gameRoutes),
+  },
+  {
+    path: 'players',
+    loadChildren: () =>
+      import('./players/players.routes').then((m) => m.playerRoutes),
+  },
+  {
+    path: 'settings',
+    loadComponent: () =>
+      import('./settings/settings.page').then((m) => m.SettingsPage),
+  },
+  {
+    path: 'statistics',
+    loadComponent: () =>
+      import('./statistics/statistics.page').then((m) => m.StatisticsPage),
+  },
 ];

@@ -1,0 +1,40 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" />
+    </ion-buttons>
+    <ion-title>Games</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-segment value="Active" (ionChange)="onSegmentChange($event)">
+    <ion-segment-button value="Active">
+      <ion-label>Active</ion-label>
+    </ion-segment-button>
+    <ion-segment-button value="Finished">
+      <ion-label>Finished</ion-label>
+    </ion-segment-button>
+  </ion-segment>
+  <swiper-container #swiper>
+    <swiper-slide>
+      <ion-list>
+        @for (game of gameService.getActiveGames(); track game.id) {
+        <ion-item [routerLink]="[game.id]">
+          <ion-label>Game</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </swiper-slide>
+    <swiper-slide>
+      <ion-list>
+        @for (game of gameService.getFinishedGames(); track game.id) {
+        <ion-item [routerLink]="[game.id]">
+          <ion-label>Game</ion-label>
+          <ion-label>Finished at: {{ game.finishedAt }}</ion-label>
+        </ion-item>
+        }
+      </ion-list>
+    </swiper-slide>
+  </swiper-container>
+</ion-content>

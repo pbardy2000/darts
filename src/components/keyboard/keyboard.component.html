@@ -1,0 +1,46 @@
+<ion-grid class="grid grid-cols-3">
+  <ion-button class="text-2xl h-20" color="warning">
+    <ion-icon name="grid-outline" />
+  </ion-button>
+  <ion-input class="text-center text-2xl h-full" readonly [value]="value()" />
+  <ion-button class="text-2xl h-20" color="success" (click)="onConfirm()">
+    <ion-icon name="checkmark-outline" />
+  </ion-button>
+  @for (key of keys; track $index) {
+    @if ($index % 2 === 0 && $index < keys.length - 1) {
+      <ion-button
+        class="text-2xl h-20"
+        expand="fill"
+        color="secondary"
+        (click)="onAdd(keys[$index + 0])"
+      >
+        {{ keys[$index + 0] }}
+      </ion-button>
+      <ion-button
+        class="text-2xl h-20"
+        expand="fill"
+        color="secondary"
+        (click)="onAdd(keys[$index + 1])"
+      >
+        {{ keys[$index + 1] }}
+      </ion-button>
+      <ion-button
+        class="text-2xl h-20"
+        expand="fill"
+        color="secondary"
+        (click)="onAdd(keys[$index + 2])"
+      >
+        {{ keys[$index + 2] }}
+      </ion-button>
+    }
+  }
+  <ion-button class="text-2xl h-20" color="danger" (click)="onClear()">
+    <ion-icon name="close-outline" />
+  </ion-button>
+  <ion-button class="text-2xl h-20" color="secondary" (click)="onAdd(0)">
+    0
+  </ion-button>
+  <ion-button class="text-2xl h-20" color="warning" (click)="onBack()">
+    <ion-icon name="backspace-outline" />
+  </ion-button>
+</ion-grid>

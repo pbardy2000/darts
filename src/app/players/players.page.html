@@ -1,0 +1,29 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/home" />
+    </ion-buttons>
+    <ion-title>Players</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" [fullscreen]="true">
+  @if (store.entities().length) {
+  <ion-list>
+    @for (player of store.entities(); track player.id) {
+    <ion-item [routerLink]="[player.id, 'edit']" detail>
+      <ion-label>{{ player.name }}</ion-label>
+    </ion-item>
+    }
+  </ion-list>
+  } @else {
+  <ion-item lines="none">
+    <ion-label>No players</ion-label>
+  </ion-item>
+  }
+  <ion-fab slot="fixed" vertical="botttom" horizontal="end">
+    <ion-fab-button [routerLink]="['new']">
+      <ion-icon name="add-outline"></ion-icon>
+    </ion-fab-button>
+  </ion-fab>
+</ion-content>

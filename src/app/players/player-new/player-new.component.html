@@ -1,0 +1,43 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Players</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding" fullscreen>
+  <form [formGroup]="form">
+    <ion-item>
+      <ion-label slot="start" autofocus>Name</ion-label>
+      <ion-input slot="end" formControlName="name" />
+    </ion-item>
+  </form>
+</ion-content>
+
+<ion-footer class="ion-padding">
+  <ion-grid>
+    <ion-row>
+      <ion-col>
+        <ion-button
+          shape="round"
+          fill="solid"
+          expand="full"
+          color="primary"
+          (click)="store.addOne(form.getRawValue())"
+        >
+          Confirm
+        </ion-button>
+      </ion-col>
+      <ion-col>
+        <ion-button
+          shape="round"
+          expand="full"
+          color="danger"
+          routerLink="/players"
+          routerDirection="back"
+        >
+          Cancel
+        </ion-button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-footer>
