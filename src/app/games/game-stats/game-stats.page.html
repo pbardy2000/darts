@@ -1,0 +1,57 @@
+<ion-header translucent>
+  <ion-toolbar>
+    <ion-title>Game Stats</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (mousedown)="onContinue()">Continue</ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content fullscreen>
+  <ng-container *ngIf="gameService.game() as game">
+    <ion-list lines="none">
+      <ion-item>
+        <ion-label>History</ion-label>
+      </ion-item>
+      <ng-container *ngIf="gameStats() as gameStats">
+        <ion-accordion-group>
+          <ion-accordion *ngFor="let set of gameStats; let s = index">
+            <ion-item lines="none" slot="header">
+              <ion-label>Set {{ s + 1 }}</ion-label>
+              <ion-label slot="end">
+                Won by: {{ getSetWinner(game, set[s]).name }}
+              </ion-label>
+            </ion-item>
+            <ion-accordion-group slot="content">
+              <ion-accordion *ngFor="let leg of set | keyvalue; let l = index">
+                <ion-item lines="none" slot="header">
+                  <ion-label>Leg {{ l + 1}}</ion-label>
+                  <ion-label slot="end">
+                    Won by: {{ getLegWinner(game, leg.value).name }}
+                  </ion-label>
+                </ion-item>
+                <ion-accordion-group lines="none" slot="content">
+                  <ion-accordion *ngFor="let rnd of leg.value; let r = index">
+                    <ion-item slot="header">
+                      <ion-label>Round {{ r + 1 }}</ion-label>
+                    </ion-item>
+                    <ion-list lines="none" slot="content">
+                      <ion-item *ngFor="let score of rnd.scores | keyvalue">
+                        <ion-label>
+                          {{ game.players[score.key].name }}
+                        </ion-label>
+                        <ion-label slot="end">
+                          {{ score.value.total }}
+                        </ion-label>
+                      </ion-item>
+                    </ion-list>
+                  </ion-accordion>
+                </ion-accordion-group>
+              </ion-accordion>
+            </ion-accordion-group>
+          </ion-accordion>
+        </ion-accordion-group>
+      </ng-container>
+    </ion-list>
+  </ng-container>
+</ion-content>
