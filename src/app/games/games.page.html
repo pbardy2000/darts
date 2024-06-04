@@ -79,7 +79,7 @@
             <ion-item
               *ngFor="let game of gameStore.completed()"
               (longpress)="onLongPress(game, null)"
-              (shortpress)="onShortPress(game, null)"
+              (shortpress)="onShortPressForCompleted(game, null)"
               appPress
               detail
               button

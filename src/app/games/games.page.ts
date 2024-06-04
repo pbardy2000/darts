@@ -23,6 +23,12 @@ export class GamesPage {
       : this.router.navigate(['games', game.id]);
   }
 
+  onShortPressForCompleted(game: Game, event: MouseEvent | null) {
+    this.gameStore.selected().length > 0
+      ? this.onLongPress(game, event)
+      : this.router.navigate(['games', game.id, 'stats']);
+  }
+
   onLongPress(game: Game, event: MouseEvent | null) {
     event?.preventDefault();
     event?.stopImmediatePropagation();
