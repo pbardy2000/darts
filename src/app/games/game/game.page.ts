@@ -1,16 +1,21 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyboardComponent } from '@components/keyboard/keyboard.component';
 import { ScoresComponent } from '@components/scores/scores.component';
-import { AlertController, IonicModule, NavController } from '@ionic/angular';
+import {
+  AlertController,
+  IonPopover,
+  IonicModule,
+  NavController,
+} from '@ionic/angular';
 import { GameService } from '@store/game';
 import { RoundService } from '@store/round/round.service';
 import { addIcons } from 'ionicons';
-import { ellipsisVerticalOutline } from 'ionicons/icons';
+import { ellipsisVerticalOutline, refreshOutline } from 'ionicons/icons';
 
-addIcons({ ellipsisVerticalOutline });
+addIcons({ ellipsisVerticalOutline, refreshOutline });
 
 @Component({
   templateUrl: './game.page.html',
@@ -30,7 +35,41 @@ export class GamePage {
   navController = inject(NavController);
   alertController = inject(AlertController);
 
-  onCancel() {}
+  popover = viewChild<IonPopover>('popover');
+
+  async onUndo() {
+    const round = this.gameService.round();
+    if (round) {
+      this.roundService.removeRound(round.id);
+    }
+  }
+
+  async onCancel() {
+    const game = this.gameService.game();
+
+    // Show are you sure alert
+    if (game) {
+      const alert = await this.alertController.create({
+        header: 'Cancel game?',
+        message: `Are you sure you want to cancel this game? Any scores will be permanently 
+        lost and will not contribute to statistics`,
+        buttons: [
+          { text: 'DISMISS', role: 'cancel' },
+          {
+            text: 'CONFIRM',
+            role: 'destructive',
+            handler: () => {
+              this.gameService.cancel(game);
+              this.router.navigate(['home']);
+              this.popover()?.dismiss();
+            },
+          },
+        ],
+      });
+
+      await alert.present();
+    }
+  }
 
   async onConfirm(score: number) {
     const game = this.gameService.game();

@@ -122,4 +122,8 @@ export class RoundService {
 
     return round;
   }
+
+  removeRound(rid: EntityId) {
+    this.roundStore.removeOne(rid);
+  }
 }

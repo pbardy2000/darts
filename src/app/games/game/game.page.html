@@ -2,21 +2,31 @@
   <ion-toolbar>
     <ion-buttons slot="start">
       <ion-back-button
-        data-testid="game-page--back-button"
+        data-testid="back-button"
         (mousedown)="navController.back()"
       />
     </ion-buttons>
-    <ion-title data-testid="game-page--title">Game</ion-title>
+    <ion-title data-testid="title">Game</ion-title>
     <ion-buttons slot="end">
+      <ion-button data-testid="undo-button" (mousedown)="onUndo()">
+        <ion-icon name="refresh-outline" />
+      </ion-button>
       <ion-button id="options">
         <ion-icon name="ellipsis-vertical-outline" />
       </ion-button>
-      <ion-popover trigger="options" triggerAction="mousedown">
+      <ion-popover trigger="options" triggerAction="mousedown" #popover>
         <ng-template>
           <ion-list lines="none">
             <ion-item
               button
-              data-testid="game-page--cancel-button"
+              data-testid="menu-undo-button"
+              (mousedown)="onCancel()"
+            >
+              <ion-label>Undo</ion-label>
+            </ion-item>
+            <ion-item
+              button
+              data-testid="menu-cancel-button"
               (mousedown)="onCancel()"
             >
               <ion-label>Cancel</ion-label>

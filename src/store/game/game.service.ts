@@ -49,4 +49,9 @@ export class GameService {
     this.gameStore.complete(game.id, rounds);
     this.roundStore.removeMany(roundIds);
   }
+
+  cancel(game: Game) {
+    this.roundStore.removeAll();
+    this.gameStore.removeOne(game.id);
+  }
 }
