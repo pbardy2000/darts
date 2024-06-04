@@ -1,8 +1,10 @@
 <ion-header translucent>
   <ion-toolbar>
-    <ion-title>Game Stats</ion-title>
+    <ion-title data-testid="title">Game Stats</ion-title>
     <ion-buttons slot="end">
-      <ion-button (mousedown)="onContinue()">Continue</ion-button>
+      <ion-button data-testid="continue-button" (mousedown)="onContinue()">
+        Continue
+      </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
@@ -11,7 +13,7 @@
   <ng-container *ngIf="gameService.game() as game">
     <ion-list lines="none">
       <ion-item>
-        <ion-label>History</ion-label>
+        <ion-label data-testid="history-label">History</ion-label>
       </ion-item>
       <ng-container *ngIf="gameStats() as gameStats">
         <ion-accordion-group>

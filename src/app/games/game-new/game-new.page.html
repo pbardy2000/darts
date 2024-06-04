@@ -14,12 +14,15 @@
   <form [formGroup]="form">
     <ion-item-group formGroupName="config">
       <ion-item lines="none">
-        <ion-label class="ion-text-uppercase"> Config </ion-label>
+        <ion-label data-testid="config-label" class="uppercase font-bold">
+          Config
+        </ion-label>
       </ion-item>
       <ion-item lines="none">
-        <ion-label slot="start">Sets</ion-label>
+        <ion-label data-testid="sets-label" slot="start">Sets</ion-label>
         <ion-input
-          class="ion-text-right"
+          class="text-right"
+          data-testid="set-input"
           slot="end"
           name="sets"
           type="number"
@@ -27,9 +30,10 @@
         />
       </ion-item>
       <ion-item lines="none">
-        <ion-label slot="start">Legs</ion-label>
+        <ion-label data-testid="legs-label" slot="start">Legs</ion-label>
         <ion-input
-          class="ion-text-right"
+          class="text-right"
+          data-testid="legs-input"
           slot="end"
           name="legs"
           type="number"
@@ -37,9 +41,10 @@
         />
       </ion-item>
       <ion-item lines="none">
-        <ion-label slot="start">Target</ion-label>
+        <ion-label data-testid="target-label" slot="start">Target</ion-label>
         <ion-input
-          class="ion-text-right"
+          class="text-right"
+          data-testid="target-input"
           slot="end"
           name="target"
           type="number"
@@ -52,10 +57,13 @@
         appPress
         button
         lines="none"
+        data-testid="players-item"
         (shortpress)="onAddPlayers()"
         (longpress)="onEditPlayers()"
       >
-        <ion-label class="ion-text-uppercase">Players</ion-label>
+        <ion-label data-testid="players-label" class="uppercase font-bold">
+          Players
+        </ion-label>
         <ion-button
           class="ion-no-padding ion-no-margin"
           color="dark"

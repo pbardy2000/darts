@@ -1,23 +1,55 @@
 <ion-header translucent>
   <ion-toolbar *ngIf="gameStore.selected().length > 0">
-    <ion-title>Selected ({{ gameStore.selected().length }})</ion-title>
+    <ion-title data-testid="selection-title">
+      Selected ({{ gameStore.selected().length }})
+    </ion-title>
     <ion-buttons slot="end">
-      <ion-button size="small" shape="round" (mousedown)="onRemoveSelection()">
+      <ion-button
+        data-testid="remove-selection"
+        size="small"
+        shape="round"
+        (mousedown)="onRemoveSelection()"
+      >
         <ion-icon size="small" slot="icon-only" name="trash-outline" />
       </ion-button>
-      <ion-button size="small" shape="round" (mousedown)="onCancelSelection()">
+      <ion-button
+        data-testid="cancel-selection"
+        size="small"
+        shape="round"
+        (mousedown)="onCancelSelection()"
+      >
         <ion-icon size="large" slot="icon-only" name="close-outline" />
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar *ngIf="gameStore.selected().length === 0">
     <ion-buttons slot="start">
-      <ion-back-button (mousedown)="navController.back()" />
+      <ion-back-button
+        data-testid="back-button"
+        (mousedown)="navController.back()"
+      />
     </ion-buttons>
-    <ion-title>Games</ion-title>
+    <ion-title data-testid="title">Games</ion-title>
+    <ion-buttons slot="end">
+      <ion-popover trigger="options" triggerAction="mousedown" #popover>
+        <ng-template>
+          <ion-list lines="none">
+            <ion-item
+              button
+              data-testid="menu-remove-all"
+              (mousedown)="onRemoveAll()"
+            >
+              <ion-label>Remove All</ion-label>
+            </ion-item>
+          </ion-list>
+        </ng-template>
+      </ion-popover>
+    </ion-buttons>
   </ion-toolbar>
   <ion-toolbar>
     <ion-searchbar
+      id="searchbar"
+      data-testid="searchbar"
       [debounce]="300"
       [placeholder]="'Search games by players...'"
       (ionInput)="gameStore.search($event.target.value!.toLowerCase())"
@@ -31,10 +63,14 @@
     <ng-container *ngIf="filtered.length; else noGames">
       <ion-segment value="active" #segment>
         <ion-segment-button data-testid="active-segment" value="active">
-          <ion-label>Active ({{ gameStore.active().length }})</ion-label>
+          <ion-label data-testid="active-segment-label">
+            Active ({{ gameStore.active().length }})
+          </ion-label>
         </ion-segment-button>
         <ion-segment-button data-testid="complete-segment" value="completed">
-          <ion-label>Complete ({{ gameStore.completed().length }})</ion-label>
+          <ion-label data-testid="complete-segment-label">
+            Complete ({{ gameStore.completed().length }})
+          </ion-label>
         </ion-segment-button>
       </ion-segment>
       <ng-container *ngIf="segment.value === 'active'">
