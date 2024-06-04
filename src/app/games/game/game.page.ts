@@ -39,9 +39,9 @@ export class GamePage {
 
   async onUndo() {
     const round = this.gameService.round();
-    if (round) {
-      this.roundService.removeRound(round.id);
-    }
+    if (!round || round.rnd === 0) return;
+
+    this.roundService.removeRound(round.id);
   }
 
   async onCancel() {
