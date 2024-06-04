@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, viewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, viewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { KeyboardComponent } from '@components/keyboard/keyboard.component';
@@ -34,12 +34,13 @@ export class GamePage {
   roundService = inject(RoundService);
   navController = inject(NavController);
   alertController = inject(AlertController);
+  cdr = inject(ChangeDetectorRef);
 
   popover = viewChild<IonPopover>('popover');
 
   async onUndo() {
     const round = this.gameService.round();
-    if (!round || round.rnd === 0) return;
+    if (!round || this.roundService.getIsFirstRound(round)) return;
 
     this.roundService.removeRound(round.id);
   }
@@ -79,6 +80,8 @@ export class GamePage {
     if (game && round && player) {
       if (this.roundService.getScoreValidity(round, player, score)) {
         const x = this.roundService.createRound(game, round, player, score);
+        this.cdr.detectChanges();
+
         if (x === null) {
           // Game won
           const alert = await this.alertController.create({

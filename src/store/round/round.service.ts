@@ -35,6 +35,10 @@ export class RoundService {
     return checkOuts.get(target) ?? [];
   }
 
+  getIsFirstRound(round: Round) {
+    return round.rnd === 0 && round.leg === 0 && round.set === 0;
+  }
+
   createInitialRound(game: Game) {
     const round = this.roundStore.addOne({
       gid: game.id,

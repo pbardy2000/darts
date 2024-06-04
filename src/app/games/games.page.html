@@ -1,17 +1,115 @@
 <ion-header translucent>
-  <ion-toolbar>
+  <ion-toolbar *ngIf="gameStore.selected().length > 0">
+    <ion-title>Selected ({{ gameStore.selected().length }})</ion-title>
+    <ion-buttons slot="end">
+      <ion-button size="small" shape="round" (mousedown)="onRemoveSelection()">
+        <ion-icon size="small" slot="icon-only" name="trash-outline" />
+      </ion-button>
+      <ion-button size="small" shape="round" (mousedown)="onCancelSelection()">
+        <ion-icon size="large" slot="icon-only" name="close-outline" />
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar *ngIf="gameStore.selected().length === 0">
     <ion-buttons slot="start">
       <ion-back-button (mousedown)="navController.back()" />
     </ion-buttons>
     <ion-title>Games</ion-title>
-    <ion-buttons slot="end"> </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar>
+    <ion-searchbar
+      [debounce]="300"
+      [placeholder]="'Search games by players...'"
+      (ionInput)="gameStore.search($event.target.value!.toLowerCase())"
+      #searchbar
+    />
   </ion-toolbar>
 </ion-header>
 
 <ion-content fullscreen>
-  <ion-list lines="none">
-    <ion-item *ngFor="let game of gameStore.filtered()">
-      <ion-label>{{ game.title }}</ion-label>
-    </ion-item>
-  </ion-list>
+  <ng-container *ngIf="gameStore.filtered() as filtered">
+    <ng-container *ngIf="filtered.length; else noGames">
+      <ion-segment value="active" #segment>
+        <ion-segment-button data-testid="active-segment" value="active">
+          <ion-label>Active ({{ gameStore.active().length }})</ion-label>
+        </ion-segment-button>
+        <ion-segment-button data-testid="complete-segment" value="completed">
+          <ion-label>Complete ({{ gameStore.completed().length }})</ion-label>
+        </ion-segment-button>
+      </ion-segment>
+      <ng-container *ngIf="segment.value === 'active'">
+        <ng-container *ngIf="gameStore.active().length">
+          <ion-list lines="none">
+            <ion-item *ngIf="gameStore.selected().length > 0">
+              <ion-checkbox
+                slot="start"
+                data-testid="toggle-all-active"
+                (ionChange)="onToggleAllActive($event.detail.checked)"
+              />
+            </ion-item>
+            <ion-item
+              *ngFor="let game of gameStore.active()"
+              (longpress)="onLongPress(game, null)"
+              (shortpress)="onShortPress(game, null)"
+              appPress
+              detail
+              button
+            >
+              <ion-label>{{ game.title }}</ion-label>
+              <ion-checkbox
+                slot="start"
+                [checked]="gameStore.selected().includes(game.id)"
+                (click)="onLongPress(game, $event)"
+                *ngIf="gameStore.selected().length > 0"
+              />
+            </ion-item>
+          </ion-list>
+        </ng-container>
+      </ng-container>
+      <ng-container *ngIf="segment.value === 'completed'">
+        <ng-container *ngIf="gameStore.completed().length">
+          <ion-list lines="none">
+            <ion-item *ngIf="gameStore.selected().length > 0">
+              <ion-checkbox
+                slot="start"
+                data-testid="toggle-all-completed"
+                (ionChange)="onToggleAllCompleted($event.detail.checked)"
+              />
+            </ion-item>
+            <ion-item
+              *ngFor="let game of gameStore.completed()"
+              (longpress)="onLongPress(game, null)"
+              (shortpress)="onShortPress(game, null)"
+              appPress
+              detail
+              button
+            >
+              <ion-label>{{ game.title }}</ion-label>
+              <ion-checkbox
+                slot="start"
+                [checked]="gameStore.selected().includes(game.id)"
+                (click)="onLongPress(game, $event)"
+                *ngIf="gameStore.selected().length > 0"
+              />
+            </ion-item>
+          </ion-list>
+        </ng-container>
+      </ng-container>
+    </ng-container>
+    <ng-template #noGames>
+      <div class="flex flex-col items-center justify-center h-full">
+        <ng-container *ngIf="searchbar.value === ''; else noResults">
+          <ion-label data-testid="no-games-label" class="font-bold">
+            No games recorded
+          </ion-label>
+        </ng-container>
+        <ng-template #noResults>
+          <ion-label data-testid="search-for-label" class="font-bold">
+            Search for "{{ searchbar.value }}"
+          </ion-label>
+          <ion-label>Returned no results</ion-label>
+        </ng-template>
+      </div>
+    </ng-template>
+  </ng-container>
 </ion-content>

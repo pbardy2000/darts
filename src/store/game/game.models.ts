@@ -24,5 +24,5 @@ export type Game = GameStub & {
 
 export type GameState = {
   filter: string;
-  selected: string[];
+  selected: EntityId[];
 };
